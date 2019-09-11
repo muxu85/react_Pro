@@ -119,6 +119,7 @@ class Login extends Component {
                                 rules: [
                                     // {required: true, message: '请输入密码'}
                                     {validator: this.validator}
+
                                 ]
                             })(
                                 <Input prefix={<Icon type="lock"/>} placeholder="密码" type="password"/>

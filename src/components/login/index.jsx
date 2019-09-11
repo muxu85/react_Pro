@@ -44,6 +44,7 @@ class Login extends Component {
                 //校验通过
                 //获取表单数据
                 const {username,password}=values;
+
                 //发送请求
                 // axios.post('http://localhost:5000/api/login',{username,password})
                 //使用代理服务器，指向代理服务器端口：3000
@@ -66,7 +67,7 @@ class Login extends Component {
                             message.success('登录成功！')
                             //跳转页面之前进行--》存储用户数据,利用redux
                             //又因为redux是内存存储，一关网页就会关掉，所以进行持久化存储
-                            this.prop.saveUser(data.data);
+                            this.props.saveUser(data.data);
                             //登录成功-->跳转到home页面
                             this.props.history.replace('/');
                        }else{
@@ -78,10 +79,11 @@ class Login extends Component {
                     //请求失败
                     .catch((error)=>{
                         //请求失败，登录也就失败
-                        message.error('登录失败,发生了未知错误');
+                        message.error('登录失败,发生了未知错误,请联系管理员');
                     })
                     .finally(()=>{
                         //清空数据,重置resetFields
+                        //不管成功或失败都会触发
                         this.props.form.resetFields(['password']);
                     })
             }

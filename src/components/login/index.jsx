@@ -1,10 +1,13 @@
 import React, {Component} from 'react';
 import {Form, Icon, Input, Button,message} from 'antd';
 import axios from 'axios';
+import {connect} from 'react-redux';
+import {saveUser} from '@redux/action-creators';
 
 import logo from './logo.png'
 import './index.less'
 
+@connect(null,{saveUser})
 @Form.create()
 //j经form.create包装过的组件自带this.props,form属性
 class Login extends Component {
@@ -47,11 +50,25 @@ class Login extends Component {
                 axios.post('/api/login',{username,password})
                 //axios返回一个promise对象
                     //请求成功
-                    .then((response)=>{
+                    // .then((response)=>{
+                    //     //通过status值判断是否登录成功
+                    //    if (response.data.status===0) {
+                    //        message.success('登录成功！')
+                    //        //跳转页面之前进行--》存储用户数据,利用storage
+                    //        this.prop.saveUser(response.data.data);
+                    //        //登录成功-->跳转到home页面
+                    //         this.props.history.replace('/');
+
+                //简写：进行解构赋值{data}=response.data
+                    .then(({data})=>{
                         //通过status值判断是否登录成功
-                       if (response.data.status===0) {
-                           message.success('登录成功！')
-                           //登录成功-->跳转到home页面
+                        if (data.status===0) {
+                            message.success('登录成功！')
+                            //跳转页面之前进行--》存储用户数据,利用storage
+                            this.prop.saveUser(data.data);
+                            //登录成功-->跳转到home页面
+                            this.props.history.replace('/');
+
 
                        }else{
                            //登录失败,返回msg信息

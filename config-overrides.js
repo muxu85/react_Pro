@@ -1,4 +1,5 @@
 const {override, fixBabelImports, addLessLoader, addDecoratorsLegacy, addWebpackAlias} = require('customize-cra');
+const {resolve}=require('path');
 
 module.exports = override(
     //按需加载组件代码和样式
@@ -15,5 +16,11 @@ module.exports = override(
 //添加babel插件支持装饰器 语法：简化高阶组件使用
     addDecoratorsLegacy(),
     //添加配置路径别名，简化路径（有问题;路径没有提示）
-    addWebpackAlias({}),
+    addWebpackAlias({
+        '@comps':resolve(__dirname,'src/components'),
+        '@conts':resolve(__dirname,'src/containers'),
+        '@config':resolve(__dirname,'src/config'),
+        '@redux':resolve(__dirname,'src/redux'),
+    }),
+
 );

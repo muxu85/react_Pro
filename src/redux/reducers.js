@@ -5,15 +5,21 @@
 import {combineReducers} from "redux";
 
 import {SAVE_USER} from "./action-types";
+import {getItem,setItem} from '../utils/storage'
 
+//初始化数据
 const initUser={
-    user:{},
-    token:''
-}
+    user:getItem('user')||{},
+    token:getItem('token')||''
+};
+
 
 function user(prevState=initUser, action) {
     switch (action.type) {
         case SAVE_USER:
+            //进行持久化存储
+            setItem('user',action.data);
+            setItem('token',action.data.token);
         return action.data;
         default:return prevState;
     }

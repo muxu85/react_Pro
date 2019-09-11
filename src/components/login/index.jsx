@@ -64,16 +64,15 @@ class Login extends Component {
                         //通过status值判断是否登录成功
                         if (data.status===0) {
                             message.success('登录成功！')
-                            //跳转页面之前进行--》存储用户数据,利用storage
+                            //跳转页面之前进行--》存储用户数据,利用redux
+                            //又因为redux是内存存储，一关网页就会关掉，所以进行持久化存储
                             this.prop.saveUser(data.data);
                             //登录成功-->跳转到home页面
                             this.props.history.replace('/');
-
-
                        }else{
                            //登录失败,返回msg信息
-                           console.log(response.data);
-                           message.error(response.data.msg);
+                           console.log(data);
+                           message.error(data.msg);
                        }
                     })
                     //请求失败
@@ -81,8 +80,10 @@ class Login extends Component {
                         //请求失败，登录也就失败
                         message.error('登录失败,发生了未知错误');
                     })
-
-
+                    .finally(()=>{
+                        //清空数据,重置resetFields
+                        this.props.form.resetFields(['password']);
+                    })
             }
         })
     };
